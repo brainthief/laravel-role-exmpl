@@ -39,16 +39,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
+                        @auth
                             <li class="nav-item">
                              <a class="nav-link" href="{{ route('articles.index') }}">{{ __('Articles') }}</a>
                             </li>
@@ -69,7 +60,16 @@
                                     </form>
                                 </div>
                             </li>
-                        @endguest
+                        @else
+                        <li class="nav-item">
+                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </li>
+                        @endif
+                        @endauth
                     </ul>
                 </div>
             </div>
