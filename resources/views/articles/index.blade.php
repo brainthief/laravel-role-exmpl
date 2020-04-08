@@ -8,6 +8,8 @@
                 <div class="card-header">Articles</div>
 
                 <div class="card-body">
+                    <a href="{{ route('articles.create') }}" class="btn btn-info">New article</a>
+                    <br /><br />
                     <table class="table">
                         <thead>
                           <tr>
