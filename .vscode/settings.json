@@ -1,0 +1,8 @@
+{
+ "cSpell.ignoreWords": ["queueable"],
+ "[php]": {
+  "editor.detectIndentation": false,
+  "editor.tabSize": 1,
+  "editor.insertSpaces": true
+ }
+}
