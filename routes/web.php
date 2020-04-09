@@ -22,5 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function () {
  Route::resource('articles', 'ArticleController');
- Route::resource('categories', 'CategoryController');
+ Route::group(['middleware' => 'is_admin'], function () {
+  Route::resource('categories', 'CategoryController');
+ });
 });
