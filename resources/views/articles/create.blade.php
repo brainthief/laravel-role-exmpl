@@ -28,6 +28,8 @@
                          @endforeach
                         </select>
                         <br />
+                        <input type="checkbox" name="published" value="1"/> Published
+                        <br />
                         <br />
                         <input type="submit" class="btn btn-primary" value="Create" />
                         <br /><br />

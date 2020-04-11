@@ -38,7 +38,10 @@ class ArticleController extends Controller
   */
  public function store(Request $request)
  {
-  Article::create($request->all() + ['user_id' => auth()->id()]);
+  Article::create($request->all() + [
+   'user_id' => auth()->id(),
+   'published_at' => $request->input('published') ? now() : null
+  ]);
   return redirect()->route('articles.index');
  }
 
