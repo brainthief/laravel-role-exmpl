@@ -9,10 +9,17 @@ class Article extends Model
 {
  protected $fillable = ['title', 'full_text', 'category_id', 'user_id'];
 
+ public function user()
+ {
+  return $this->belongsTo(User::class);
+ }
+
  protected static function booted()
  {
-  static::addGlobalScope('user', function (Builder $builder) {
-   $builder->where('user_id', auth()->id());
-  });
+  if (auth()->check() && !auth()->user()->is_admin) {
+   static::addGlobalScope('user', function (Builder $builder) {
+    $builder->where('user_id', auth()->id());
+   });
+  }
  }
 }

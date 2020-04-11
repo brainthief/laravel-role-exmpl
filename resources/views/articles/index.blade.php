@@ -14,6 +14,9 @@
                         <thead>
                           <tr>
                             <th scope="col">Title</th>
+                            @if(auth()->user()->is_admin)
+                             <th scope="col">User</th>
+                            @endif
                             <th scope="col">Created at</th>
                             <th scope="col"></th>
                           </tr>
@@ -22,6 +25,9 @@
                             @foreach ($articles as $article)
                                 <tr>
                                     <td>{{ $article->title }}</td>
+                                    @if(auth()->user()->is_admin)
+                                     <td>{{ $article->user->name }}</td>
+                                    @endif
                                     <td>{{ $article->created_at }}</td>
                                     <td></td>
                                 </tr>
