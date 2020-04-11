@@ -66,6 +66,7 @@ class ArticleController extends Controller
   */
  public function edit(Article $article)
  {
+  $this->authorize('update', $article);
   $categories = Category::all();
   return view('articles.edit', compact('article', 'categories'));
  }
@@ -79,6 +80,7 @@ class ArticleController extends Controller
   */
  public function update(Request $request, Article $article)
  {
+  $this->authorize('update', $article);
   $data = $request->all();
   if (Gate::allows('publish-article')) {
    $data['published_at'] = $request->input('published') ? now() : null;
@@ -95,6 +97,7 @@ class ArticleController extends Controller
   */
  public function destroy(Article $article)
  {
+  $this->authorize('update', $article);
   $article->delete();
   return redirect()->route('articles.index');
  }
