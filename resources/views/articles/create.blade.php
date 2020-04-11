@@ -28,11 +28,11 @@
                          @endforeach
                         </select>
                         <br />
-                        @if(auth()->user()->is_publisher || auth()->user()->is_admin)
+                        @can('publish-article')
                         <input type="checkbox" name="published" value="1"/> Published
                         <br />
                         <br />
-                        @endif
+                        @endcan
                         <input type="submit" class="btn btn-primary" value="Create" />
                         <br /><br />
                        </form>

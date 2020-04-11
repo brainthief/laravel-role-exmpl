@@ -14,9 +14,9 @@
                         <thead>
                           <tr>
                             <th scope="col">Title</th>
-                            @if(auth()->user()->is_admin)
+                            @can('see-article-user')
                              <th scope="col">User</th>
-                            @endif
+                            @endcan
                             <th scope="col">Created at</th>
                             <th scope="col">Published at</th>
                             <th scope="col"></th>
@@ -26,9 +26,9 @@
                             @foreach ($articles as $article)
                                 <tr>
                                     <td>{{ $article->title }}</td>
-                                    @if(auth()->user()->is_admin)
+                                    @can('see-article-user')
                                      <td>{{ $article->user->name }}</td>
-                                    @endif
+                                    @endcan
                                     <td>{{ $article->created_at }}</td>
                                     <td>{{ $article->published_at }}</td>
                                     <td>
