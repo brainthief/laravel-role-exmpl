@@ -20,9 +20,9 @@ class AddRoleIdToUsersTable extends Migration
 
   \App\User::where('is_admin', 1)->update(['role_id' => 2]);
 
-  Schema::table('users', function (Blueprint $table) {
-   $table->removeColumn('is_admin');
-  });
+  // Schema::table('users', function (Blueprint $table) {
+  //  $table->removeColumn('is_admin');
+  // });
  }
 
 
