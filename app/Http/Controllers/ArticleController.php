@@ -40,7 +40,8 @@ class ArticleController extends Controller
  {
   Article::create($request->all() + [
    'user_id' => auth()->id(),
-   'published_at' => $request->input('published') ? now() : null
+   'published_at' => (auth()->user()->is_admin || auth()->user()->is_publisher)
+    && $request->input('published') ? now() : null
   ]);
   return redirect()->route('articles.index');
  }
@@ -64,7 +65,8 @@ class ArticleController extends Controller
   */
  public function edit(Article $article)
  {
-  //
+  $categories = Category::all();
+  return view('articles.edit', compact('article', 'categories'));
  }
 
  /**
@@ -76,7 +78,12 @@ class ArticleController extends Controller
   */
  public function update(Request $request, Article $article)
  {
-  //
+  $data = $request->all();
+  if (auth()->user()->is_admin || auth()->user()->is_publisher) {
+   $data['published_at'] = $request->input('published') ? now() : null;
+  }
+  $article->update($data);
+  return redirect()->route('articles.index');
  }
 
  /**
@@ -87,6 +94,7 @@ class ArticleController extends Controller
   */
  public function destroy(Article $article)
  {
-  //
+  $article->delete();
+  return redirect()->route('articles.index');
  }
 }

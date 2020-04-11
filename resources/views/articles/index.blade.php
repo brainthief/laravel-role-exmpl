@@ -31,7 +31,15 @@
                                     @endif
                                     <td>{{ $article->created_at }}</td>
                                     <td>{{ $article->published_at }}</td>
-                                    <td></td>
+                                    <td>
+                                        <a class="btn btn-primary" href="{{ route('articles.edit', $article->id) }}">Edit</a>
+      
+                                        <form action="{{ route('articles.destroy', $article->id) }}" method="POST" style="display: inline">
+                                        @method('DELETE')
+                                        @csrf
+                                        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure?')" />
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
