@@ -17,6 +17,7 @@ class ArticleController extends Controller
  public function index()
  {
   $articles = Article::with('user')->get();
+
   return view('articles.index', compact('articles'));
  }
 
@@ -27,78 +28,79 @@ class ArticleController extends Controller
   */
  public function create()
  {
-  $categories =  Category::all();
+  $categories = Category::all();
+
   return view('articles.create', compact('categories'));
  }
 
  /**
   * Store a newly created resource in storage.
   *
-  * @param  \Illuminate\Http\Request  $request
+  * @param \Illuminate\Http\Request $request
   * @return \Illuminate\Http\Response
   */
  public function store(Request $request)
  {
-  Article::create($request->all() + [
-   'user_id' => auth()->id(),
-   'published_at' => (Gate::allows('publish-article'))
-    && $request->input('published') ? now() : null
-  ]);
-  return redirect()->route('articles.index');
- }
+  $organizationId = auth()->user()->organization_id ? auth()->user()->organization_id : auth()->id();
+  Article::create(
+   $request->all() +
+    [
+     'user_id' => $organizationId,
+     'published_at' => Gate::allows('publish-articles')
+      && $request->input('published') ? now() : null
+    ]
+  );
 
- /**
-  * Display the specified resource.
-  *
-  * @param  \App\Article  $article
-  * @return \Illuminate\Http\Response
-  */
- public function show(Article $article)
- {
-  //
+  return redirect()->route('articles.index');
  }
 
  /**
   * Show the form for editing the specified resource.
   *
-  * @param  \App\Article  $article
+  * @param \App\Article $article
   * @return \Illuminate\Http\Response
   */
  public function edit(Article $article)
  {
   $this->authorize('update', $article);
+
   $categories = Category::all();
+
   return view('articles.edit', compact('article', 'categories'));
  }
 
  /**
   * Update the specified resource in storage.
   *
-  * @param  \Illuminate\Http\Request  $request
-  * @param  \App\Article  $article
+  * @param \Illuminate\Http\Request $request
+  * @param \App\Article $article
   * @return \Illuminate\Http\Response
   */
  public function update(Request $request, Article $article)
  {
   $this->authorize('update', $article);
+
   $data = $request->all();
-  if (Gate::allows('publish-article')) {
+  if (Gate::allows('publish-articles')) {
    $data['published_at'] = $request->input('published') ? now() : null;
   }
   $article->update($data);
+
   return redirect()->route('articles.index');
  }
 
  /**
   * Remove the specified resource from storage.
   *
-  * @param  \App\Article  $article
+  * @param \App\Article $article
   * @return \Illuminate\Http\Response
   */
  public function destroy(Article $article)
  {
   $this->authorize('update', $article);
+
   $article->delete();
+
   return redirect()->route('articles.index');
  }
 }

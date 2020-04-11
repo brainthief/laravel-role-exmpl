@@ -40,8 +40,26 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @auth
+                            @if (auth()->user()->organizations->count() > 1)
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{ session('organization_name', '') }} <span class="caret"></span>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        @foreach (auth()->user()->organizations as $organization)
+                                        <a class="dropdown-item" href="{{ route('organization', $organization->id) }}">
+                                            {{ $organization->name }}
+                                        </a>
+                                        @endforeach
+                                    </div>
+                                </li>
+                            @endif
                             <li class="nav-item">
-                             <a class="nav-link" href="{{ route('articles.index') }}">{{ __('Articles') }}</a>
+                                <a class="nav-link" href="{{ route('invite') }}">{{ __('Invite') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('articles.index') }}">{{ __('Articles') }}</a>
                             </li>
                             @can('manage-categories')
                             <li class="nav-item">
@@ -66,14 +84,14 @@
                                 </div>
                             </li>
                         @else
-                        <li class="nav-item">
-                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                        @endif
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
                         @endauth
                     </ul>
                 </div>
